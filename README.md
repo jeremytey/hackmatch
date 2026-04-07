@@ -3,7 +3,7 @@
 > Hackathon teammate discovery platform for Malaysian university students.
 > Find qualified teammates by role, skills, and availability - before the deadline.
 
-![CI](https://github.com/jeremytey/hackmatch/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml/badge.svg)
 ![Live](https://img.shields.io/badge/live-railway-brightgreen)
 
 ## Live Demo
@@ -11,10 +11,10 @@
 **Web:** https://YOUR_VERCEL_URL
 
 ## The Problem
-Malaysian university students find hackathon teammates via unstructured 
-Discord posts with no skill filtering, no role matching, and no status 
-visibility. HackMatch replaces that with structured profiles and a 
-filtered participant feed.
+Malaysian University Students find hackathon teammates via Discord channels, XHS posts, checking out LinkedIn profiles, and cold-messaging strangers. With no way to filter by role, skill level, or whether they're even still looking for teammates. Most teams form on luck, not fit. A seamless matched team is the difference maker in a Hackathon compared to a mismatched team. 
+
+HackMatch offers a platform for students to structure profiles, filter for potential teammates, helping you find the right teammate in minutes.
+
 
 ## Architecture
 [INSERT EXCALIDRAW DIAGRAM EXPORT HERE]
@@ -24,9 +24,9 @@ filtered participant feed.
 | Layer | Technology | Why |
 |-------|-----------|-----|
 | Runtime | Node.js + Express | Familiar, performant, large ecosystem |
-| Language | TypeScript | Type safety, better DX, required by target companies |
+| Language | TypeScript | Type safety, catches type errors at compile time |
 | ORM | Prisma | Type-safe queries, clean migrations, great DX |
-| Database | PostgreSQL | Relational data, strong constraints, ACID |
+| Database | PostgreSQL | Relational data, strong constraints, strong consistency|
 | Auth | JWT + refresh token rotation | Stateless, secure, industry standard |
 | Validation | Zod | Runtime type safety, pairs well with TypeScript |
 | Logging | Winston | Structured logs, queryable in production |
@@ -89,4 +89,4 @@ hackathon join/status/leave, participant feed filtering.
 
 ## Author
 Jeremy Tey Jie Ming — Sunway University, BSc Computer Science  
-[LinkedIn] · [GitHub]
+[LinkedIn] (https://www.linkedin.com/in/jeremy-tey/) · [GitHub]
