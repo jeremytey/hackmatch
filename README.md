@@ -89,4 +89,4 @@ hackathon join/status/leave, participant feed filtering.
 
 ## Author
 Jeremy Tey Jie Ming — Sunway University, BSc Computer Science  
-[LinkedIn] (https://www.linkedin.com/in/jeremy-tey/) · [GitHub]
+[LinkedIn] (https://www.linkedin.com/in/jeremy-tey/)
