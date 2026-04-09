@@ -1,5 +1,5 @@
 import {z} from 'zod';
-
+// env.ts - Environment variable validation and parsing using zod
 // Define the schema for environment variables using zod
 export const envSchema = z.object({
     NODE_ENV: z.enum(['development', 'production']),
