@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon --env-file=.env src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "jest --runInBand --forceExit",
@@ -21,6 +21,7 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "prisma": "^6.19.3",
