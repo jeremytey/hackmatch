@@ -7,7 +7,7 @@ const globalForPrisma = global as typeof global & {
 
 // We create a new PrismaClient instance if it doesn't already exist, and we log queries, errors, and warnings for better debugging.
 const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: ['query', 'error', 'warn'],
+  log: process.env.NODE_ENV === 'test' ? ['error'] : ['query', 'error', 'warn'],
 });
 
 if (process.env.NODE_ENV !== 'production') {

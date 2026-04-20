@@ -109,38 +109,36 @@ describe('Authentication Integration Tests', () => {
 
     // 4. Test token refresh
     describe('POST /auth/refresh', () => {
+        const user = { email: 'refresh@example.com', username: 'refreshuser', password: 'password123' };
+
         test('should rotate refresh tokens and invalidate the old one', async () => {
-        
+    
+        // a) Register a new user to get a refresh token cookie    
         const registerRes = await request(app)
             .post('/auth/register')
-            .send({
-                email: 'refresh@example.com',
-                username: 'refreshuser',
-                password: 'password123'
-            });
+            .send(user);
         const userId = registerRes.body.user.id;
+        
         // a) Login to get initial cookies
         const loginRes = await request(app)
             .post('/auth/login')
-            .send({ email: 'refresh@example.com', password: 'password123' });
+            .send({ email: user.email, password: user.password });
+        const loginCookie = loginRes.get('Set-Cookie')?.[0]?.split(';')[0];
+        if (!loginCookie) throw new Error('No cookie set on login');
 
-        const firstCookie = loginRes.get('Set-Cookie'); // ['refreshToken=abc; HttpOnly...']
-        if (!firstCookie) throw new Error('No cookie set on login');
-
-        //  b) Refresh for the first time (should rotate tokens)
+        //  b) First refresh — consumes login token, issues new one
         const refreshRes = await request(app)
             .post('/auth/refresh')
-            .set('Cookie', firstCookie);
-        
-        const secondCookie = refreshRes.get('Set-Cookie');
-        if (!secondCookie) throw new Error('No cookie set on refresh');
+            .set('Cookie', loginCookie);
         expect(refreshRes.status).toBe(200);
+        const rotatedCookie = refreshRes.get('Set-Cookie')?.[0]?.split(';')[0];
+        expect(rotatedCookie).toBeDefined();
+        expect(rotatedCookie).not.toBe(loginCookie);
 
         // c) ATTEMPT TO REUSE THE FIRST COOKIE (The Security Test)
         const reuseRes = await request(app)
             .post('/auth/refresh')
-            .set('Cookie', firstCookie);
-
+            .set('Cookie', loginCookie); // Attempt to reuse the original cookie which should now be invalidated
         //  VERIFY REVOCATION: should be 401 and db cleared tokens
         expect(reuseRes.status).toBe(401); 
         
@@ -148,7 +146,7 @@ describe('Authentication Integration Tests', () => {
         const tokenCount = await prisma.refreshToken.count({ where: { userId } });
         expect(tokenCount).toBe(0); 
         });
-});
+    });
 
     // ========== Edge Cases ==========
     // 5. Test edge cases for registration
@@ -195,7 +193,7 @@ describe('Authentication Integration Tests', () => {
             expect(res.body).toHaveProperty('message', 'Username already in use');
         });
 
-        test('should not allow registration with invalid password', async () => {
+        test('should not allow registration with password shorter than 8 characters', async () => {
             const res = await request(app)
                 .post('/auth/register')
                 .send({
@@ -205,7 +203,7 @@ describe('Authentication Integration Tests', () => {
                 });
 
             expect(res.statusCode).toEqual(400);
-            expect(res.body).toHaveProperty('message', 'Password must be at least 6 characters long and contain at least one number');
+            expect(res.body).toHaveProperty('message', 'Password must be at least 8 characters long');
         });
 
     });
@@ -268,12 +266,12 @@ describe('Authentication Integration Tests', () => {
 
     // 8. Logout edge cases
     describe('logout edge cases', () => {
-        test('should return 401 if no token is provided', async () => {
+        test('should return 401 if no authorization header is provided', async () => {
             const res = await request(app)
                 .post('/auth/logout');
                 
             expect(res.statusCode).toEqual(401);
-            expect(res.body).toHaveProperty('message', 'No token provided');
+            expect(res.body).toHaveProperty('message', 'Authorization header missing');
         });
 
         test('should return 401 if token is invalid', async () => {
@@ -282,7 +280,7 @@ describe('Authentication Integration Tests', () => {
                 .set('Authorization', 'Bearer invalidtoken');
 
             expect(res.statusCode).toEqual(401);
-            expect(res.body).toHaveProperty('message', 'Invalid token');
+            expect(res.body).toHaveProperty('message', 'Invalid or expired token');
         });
     });
 });

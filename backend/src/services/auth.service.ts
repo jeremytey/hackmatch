@@ -7,8 +7,6 @@ import crypto from "crypto";
 import { UserRole } from "@prisma/client";
 import { AppError } from "../lib/app.error";
 
-
-
 export async function register(email: string, username: string, password: string): 
 Promise<{ accessToken: string; refreshToken: string; user: { id: number; email: string; username: string; userRole: UserRole } }> {
 
@@ -70,43 +68,36 @@ Promise<{ accessToken: string; refreshToken: string; user: { id: number; email: 
 }
 
 export async function refreshTokens(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
-
-    // verify refresh token and get userId
+    // 1. Verify refresh token and get userId
     let payload;
     try {
         payload = verifyRefreshToken(refreshToken);
     } catch (err) {
         throw new AppError("Invalid refresh token", 401);
     }
-    
-    // find hashed refresh token in db
-    const refreshTokenHash = crypto
-    .createHash("sha256").update(refreshToken).digest("hex");
+
+    const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex");
+
+    // 2. Attempt to delete the old token (Rotation)
     const storedToken = await findRefreshToken(refreshTokenHash);
-    if (!storedToken ) {
-        await deleteRefreshTokensForUser(payload.userId); // delete all tokens for user if token is invalid/expired
+    if (!storedToken) {
+        await deleteRefreshTokensForUser(payload.userId);
         throw new AppError("Invalid refresh token", 401);
     }
-
-    if (storedToken.expiresAt < new Date()) {
     await deleteRefreshToken(refreshTokenHash);
-    throw new AppError('Refresh token expired', 401);
-    }
 
-    // generate new JWT token pair
+    // 3. Find user to get their role for the new token
     const user = await userRepository.findUserById(payload.userId);
     if (!user) {
         throw new AppError("User not found", 404);
     }
 
-    // delete old token first
-    await deleteRefreshToken(refreshTokenHash);
+    // 4. Generate new pair
     const tokens = generateTokenPair(payload.userId, user.userRole);
 
-    // hash new refresh token and store in db
-    const newRefreshTokenHash = crypto
-    .createHash("sha256").update(tokens.refreshToken).digest("hex");
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    // 5. Store the new hashed refresh token
+    const newRefreshTokenHash = crypto.createHash("sha256").update(tokens.refreshToken).digest("hex");
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     await createRefreshToken(payload.userId, newRefreshTokenHash, expiresAt);
 
     return tokens;
@@ -115,3 +106,4 @@ export async function refreshTokens(refreshToken: string): Promise<{ accessToken
 export async function logout(userId: number): Promise<void> {
   await deleteRefreshTokensForUser(userId);
 }
+

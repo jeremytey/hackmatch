@@ -55,7 +55,7 @@ export async function refreshTokens(req: Request, res: Response, next: NextFunct
         // get refresh token from httpOnly cookie
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
-            throw new AppError("Refresh token missing", 400);
+            throw new AppError("No refresh token provided", 401);
         }
         const result = await authService.refreshTokens(refreshToken);
         res.cookie("refreshToken", result.refreshToken, {

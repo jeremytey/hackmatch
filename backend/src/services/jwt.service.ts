@@ -2,6 +2,7 @@ import { sign, verify, SignOptions } from 'jsonwebtoken';
 import { UserRole } from '@prisma/client';
 import { JwtPayload } from '../types/auth.types';
 import {env} from '../lib/env';
+import { randomUUID } from 'crypto';
 
 // sign and verify JWT tokens for access and refresh tokens
 export function generateTokenPair(userId: number, role: UserRole): { accessToken: string; refreshToken: string } {
@@ -11,7 +12,7 @@ export function generateTokenPair(userId: number, role: UserRole): { accessToken
         { expiresIn: env.JWT_ACCESS_EXPIRES_IN } as SignOptions
     );
     const refreshToken = sign(
-        { userId }, 
+        { userId, jti: randomUUID() }, 
         env.JWT_REFRESH_SECRET, 
         { expiresIn: env.JWT_REFRESH_EXPIRES_IN } as SignOptions
     );
