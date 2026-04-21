@@ -64,8 +64,9 @@ See `.env.example` for all required keys.
 | POST | /auth/login | public | Login, return tokens |
 | POST | /auth/refresh | user | Renew access token |
 | POST | /auth/logout | user | Revoke refresh token |
-| GET | /profile/me | user | Get own profile |
-| PUT | /profile/me | user | Update own profile |
+| GET | /users/me | user | Get own profile |
+| PUT | /users/me | user | Update own profile |
+| GET | /users/:userId | user | Get specific user profile |
 | GET | /skills | public | Get skill list |
 | GET | /hackathons | public | List all hackathons |
 | GET | /hackathons/:id | user | Hackathon details |
