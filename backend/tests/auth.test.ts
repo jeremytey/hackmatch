@@ -8,7 +8,10 @@ describe('Authentication Integration Tests', () => {
   beforeEach(async () => {
     
     // clear refreshTokens first due to foreign key constraints
+    await prisma.hackathonParticipant.deleteMany();
+    await prisma.hackathon.deleteMany();
     await prisma.refreshToken.deleteMany();
+    await prisma.userSkill.deleteMany();
     await prisma.user.deleteMany();
   });
 

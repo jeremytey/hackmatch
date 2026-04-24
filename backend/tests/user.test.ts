@@ -8,6 +8,8 @@ describe('User API Tests', () => {
     beforeEach(async () => {
 
         // Clear relevant tables before each test to ensure a clean state
+        await prisma.hackathonParticipant.deleteMany();
+        await prisma.hackathon.deleteMany();
         await prisma.refreshToken.deleteMany();
         await prisma.userSkill.deleteMany();
         await prisma.user.deleteMany();
