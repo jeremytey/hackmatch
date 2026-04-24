@@ -89,7 +89,7 @@ model Hackathon {
   startDate            DateTime
   registrationDeadline DateTime
   maxTeamSize          Int
-  externalUrl          String
+  externalUrl          String?
   createdBy            Int
   createdByUser        User     @relation(fields: [createdBy], references: [id])
   participants         HackathonParticipant[]
