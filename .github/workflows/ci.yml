@@ -9,11 +9,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    # This tells GitHub to run every 'run' command inside your backend folder
     defaults:
-      run:
-        working-directory: backend
+        run:
+            working-directory: backend
 
     env:
       NODE_ENV: test
@@ -42,10 +40,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '20'
           cache: 'npm'
