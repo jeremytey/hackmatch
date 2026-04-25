@@ -5,3 +5,4 @@ logs/
 *.log
 /generated/prisma
 .env.test
+dist/
