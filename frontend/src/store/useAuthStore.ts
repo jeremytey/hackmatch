@@ -23,13 +23,15 @@ interface AuthState {
     logout: () => void;
 }
 
-// persist saves the auth state to localStorage and rehydrates it on app refresh or load
+// persist: middleware saves the auth state to localStorage and rehydrates it on app refresh or load
 export const useAuthStore = create<AuthState>()(
     persist(
         (set) => ({
             user: null,
             accessToken: null,
+            // _hasHydrated: read from memory
             _hasHydrated: false, //internal flag to track if the store has been rehydrated from storage
+            
 
             setAuth: (user, accessToken) => set({ user, accessToken }),
             setAccessToken: (accessToken) => set({ accessToken }),
@@ -38,10 +40,11 @@ export const useAuthStore = create<AuthState>()(
         }),
         {
             name: 'auth-storage', // name of the item in storage
-            partialize: (state) => ({ user:state.user}), // only persist the user object, not the access token
+            // partialize: only persist the user object, not the access token
+            partialize: (state) => ({ user:state.user}), 
             onRehydrateStorage: () => (state) => {
-                state?.setHasHydrated(true);
-            },
+                state?.setHasHydrated(true); // triggers once localStorage data has been loaded into the store
         }
+    }
     )
 );
