@@ -13,6 +13,7 @@ import UserProfile from './pages/Profile/UserProfile';
 import CreateHackathon from './pages/Admin/CreateHackathon';
 import EditHackathon from './pages/Admin/EditHackathon';
 
+// Main App component with route definitions and layout
 const App = () => {
   return (
     <BrowserRouter>

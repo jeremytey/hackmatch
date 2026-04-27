@@ -1,4 +1,4 @@
-// src/components/auth/ProtectedRoute.tsx
+// protected route component to guard routes based on authentication and user roles
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 

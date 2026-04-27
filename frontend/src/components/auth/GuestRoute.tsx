@@ -1,5 +1,4 @@
-// src/components/auth/GuestRoute.tsx
-
+// protect routes like login/register from authenticated users (e.g., redirect to home if already logged in)
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 

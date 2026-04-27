@@ -22,7 +22,7 @@ const processQueue = (error: any = null) => {
   failedQueue = [];
 };
 
-// Request Interceptor: Inject latest token
+// Request Interceptor: attach access token from Zustand store to every request authorization header
 axiosInstance.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) {
@@ -31,14 +31,14 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Response Interceptor: Refresh Logic
+// Response Interceptor: catches 401 errors, attempts token refresh, and retries original request with new token
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
+      if (isRefreshing) { // If a refresh is already in progress, queue the request until it's done
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
