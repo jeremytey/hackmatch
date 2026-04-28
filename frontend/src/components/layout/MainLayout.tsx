@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
-import { logout as logoutApi } from '../../api/auth.service';
 
 export default function MainLayout() {
   return (
