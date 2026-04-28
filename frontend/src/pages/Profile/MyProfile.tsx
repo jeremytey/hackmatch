@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMyProfile, updateProfile } from '../../api/user.service';
 import type { UserProfile, UpdateUserDto } from '../../types/user.types';
-import type { Update } from 'vite/types/hmrPayload.js';
 
 export default function MyProfile() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
