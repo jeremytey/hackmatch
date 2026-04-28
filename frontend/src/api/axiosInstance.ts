@@ -2,7 +2,7 @@ import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://hackmatch-production.up.railway.app',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   withCredentials: true,
 });
 
@@ -55,7 +55,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          'https://hackmatch-production.up.railway.app/auth/refresh',
+          '/api/auth/refresh',
           {},
           { withCredentials: true }
         );

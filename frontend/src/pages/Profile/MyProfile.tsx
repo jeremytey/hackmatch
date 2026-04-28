@@ -56,9 +56,10 @@ export default function MyProfile() {
       <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8 space-y-10 shadow-2xl backdrop-blur-md">
         {/* User Header */}
         <div className="flex items-center gap-6">
-          <div className="h-24 w-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-4xl font-black text-white shadow-xl shadow-cyan-900/20 rotate-3">
-            <span className="-rotate-3">{profile.username[0].toUpperCase()}</span>
-          </div>
+          <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-3xl font-black text-white shadow-lg shadow-cyan-900/20">
+          {/* The Fix: Safe navigation + Fallback character */}
+          {profile?.username ? profile.username[0].toUpperCase() : '?'}
+        </div>
           <div>
             <h2 className="text-2xl font-bold text-white">{profile.username}</h2>
             <p className="text-slate-500 font-medium tracking-wide">{profile.email}</p>
