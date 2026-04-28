@@ -13,6 +13,18 @@ export interface Hackathon {
   updatedAt: string;
 }
 
+// For creating or updating hackathons
+export interface HackathonFormData {
+  name: string;
+  description: string;
+  startDate: string; 
+  registrationDeadline: string;
+  maxTeamSize: number;
+  externalUrl?: string;
+}
+
+
+
 export interface Participant {
   id: number;
   hackathonId: number;

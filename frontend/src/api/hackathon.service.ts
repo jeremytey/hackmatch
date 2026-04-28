@@ -1,5 +1,15 @@
 import axiosInstance from './axiosInstance';
-import type { Hackathon, Participant } from '../types/hackathon.types'; 
+import type { Hackathon, Participant, HackathonFormData } from '../types/hackathon.types'; 
+
+export const createHackathon = async (data: HackathonFormData): Promise<Hackathon> => {
+  const { data: responseData } = await axiosInstance.post<Hackathon>('/hackathons', data);
+  return responseData;
+};
+
+export const updateHackathon = async (id: number, data: HackathonFormData): Promise<Hackathon> => {
+  const { data: responseData } = await axiosInstance.put<Hackathon>(`/hackathons/${id}`, data);
+  return responseData;
+};
 
 // Fetches all hackathons from the database. GET /hackathons
 export const getAllHackathons = async (): Promise<Hackathon[]> => {
