@@ -53,9 +53,6 @@ export default function HackathonFeed() {
                   <span className="rounded-full bg-cyan-500/10 px-2.5 py-0.5 text-xs font-semibold text-cyan-400">
                     Max Team: {h.maxTeamSize}
                   </span>
-                  <span className="text-[10px] uppercase tracking-widest text-slate-500">
-                    ID: #{h.id}
-                  </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">

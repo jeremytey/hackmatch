@@ -1,3 +1,5 @@
+export type TeamStatus = 'LOOKING' | 'NEED_MEMBERS' | 'FULL';
+
 export interface Hackathon {
   id: number;
   name: string;
@@ -9,4 +11,26 @@ export interface Hackathon {
   createdBy: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Participant {
+  id: number;
+  hackathonId: number;
+  teamStatus: TeamStatus;
+  spotsAvailable?: number | null;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: number;
+    username: string;
+    university: string | null;
+    yearOfStudy: number | null;
+    role: 'DEVELOPER' | 'DESIGNER' | 'PRODUCT_MANAGER' | 'RESEARCHER' | null;
+    bio: string | null;
+    githubURL: string | null;
+    linkedinURL: string | null;
+    preferredContact: string | null;
+    avatarURL: string | null;
+    skills: { id: number; name: string; category: string; }[];
+  };
 }
