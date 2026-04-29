@@ -12,6 +12,7 @@ import MyProfile from './pages/Profile/MyProfile';
 import UserProfile from './pages/Profile/UserProfile';
 import CreateHackathon from './pages/Admin/CreateHackathon';
 import EditHackathon from './pages/Admin/EditHackathon';
+import HackathonParticipants from './pages/HackathonParticipants';
 
 // Main App component with route definitions and layout
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
           {/* 3. PROTECTED */}
           <Route element={<ProtectedRoute />}>
             <Route path="/hackathons/:id" element={<HackathonDetail />} />
+            <Route path="/hackathons/:id/participants" element={<HackathonParticipants />} />
             <Route path="/profile/me" element={<MyProfile />} />
             <Route path="/profile/:userId" element={<UserProfile />} />
           </Route>

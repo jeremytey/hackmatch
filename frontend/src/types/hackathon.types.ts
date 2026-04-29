@@ -1,5 +1,12 @@
 export type TeamStatus = 'LOOKING' | 'NEED_MEMBERS' | 'FULL';
 
+export interface ParticipantFilters {
+  role?: string;
+  teamStatus?: 'LOOKING' | 'NEED_MEMBERS' | 'FULL';
+  skills?: string;
+}
+
+
 export interface Hackathon {
   id: number;
   name: string;
@@ -46,3 +53,4 @@ export interface Participant {
     skills: { id: number; name: string; category: string; }[];
   };
 }
+

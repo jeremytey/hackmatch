@@ -1,6 +1,16 @@
 import axiosInstance from './axiosInstance';
 import type { Hackathon, Participant, HackathonFormData } from '../types/hackathon.types'; 
 
+
+export const getParticipantsByHackathonId = async (hackathonId: number, filters?: ParticipantFilters)
+: Promise<Participant[]> => {
+  const { data } = await axiosInstance.get<Participant[]>(
+    `/hackathons/${hackathonId}/participants`,
+    { params: filters }
+  );
+  return data;
+};
+
 export const createHackathon = async (data: HackathonFormData): Promise<Hackathon> => {
   const { data: responseData } = await axiosInstance.post<Hackathon>('/hackathons', data);
   return responseData;
@@ -20,12 +30,6 @@ export const getAllHackathons = async (): Promise<Hackathon[]> => {
 // Fetches a single hackathon details by ID
 export const getHackathonById = async (id: number): Promise<Hackathon> => {
   const { data } = await axiosInstance.get<Hackathon>(`/hackathons/${id}`);
-  return data;
-};
-
-// Fetches all participants for a specific hackathon
-export const getParticipantsByHackathonId = async (hackathonId: number): Promise<Participant[]> => {
-  const { data } = await axiosInstance.get<Participant[]>(`/hackathons/${hackathonId}/participants`);
   return data;
 };
 

@@ -120,43 +120,10 @@ export default function HackathonDetail() {
           </div>
         </div>
 
-        {/* Participants Sidebar */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm">
-          <h3 className="mb-6 text-lg font-bold text-white flex items-center justify-between">
-            Participants 
-            <span className="text-xs font-medium text-slate-500 bg-slate-800 px-2 py-1 rounded-md">
-              {participants.length}
-            </span>
-          </h3>
-          
-          <div className="space-y-5">
-            {participants.map((p) => (
-              <div key={p.id} className="group flex items-start gap-3">
-                <div className="h-8 w-8 shrink-0 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-cyan-500">
-                  {p.user.username[0].toUpperCase()}
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="truncate text-sm font-bold text-slate-200">{p.user.username}</p>
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded font-black uppercase ${
-                      p.teamStatus === 'LOOKING' ? 'bg-green-500/10 text-green-400' :
-                      p.teamStatus === 'NEED_MEMBERS' ? 'bg-yellow-500/10 text-yellow-400' :
-                      'bg-slate-800 text-slate-500'
-                    }`}>
-                      {p.teamStatus === 'NEED_MEMBERS' ? `+${p.spotsAvailable || '?'}` : p.teamStatus}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-slate-500 truncate">
-                    {p.user.role || 'Participant'} • {p.user.university || 'Sunway'}
-                  </p>
-                </div>
-              </div>
-            ))}
-            {participants.length === 0 && (
-              <p className="text-sm text-slate-500 italic">No participants yet.</p>
-            )}
-          </div>
-        </div>
+        <Link to={`/hackathons/${id}/participants`}
+          className="mt-3 block w-full rounded-xl border border-cyan-500/30 bg-cyan-500/5 py-3 text-center text-sm font-bold text-cyan-400 hover:bg-cyan-500/10 transition-colors">
+          View All Participants →
+        </Link>
       </div>
     </div>
   );
