@@ -8,6 +8,7 @@ import { errorMiddleware } from './middleware/error.middleware';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import hackathonRouter from './routes/hackathon.routes';
+import skillRouter from './routes/skill.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/hackathons', hackathonRouter);
+app.use('/skills', skillRouter);
 
 app.use(errorMiddleware);
 
