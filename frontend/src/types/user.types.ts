@@ -20,4 +20,8 @@ export interface UpdateUserDto {
   role?: 'DEVELOPER' | 'DESIGNER' | 'PRODUCT_MANAGER' | 'RESEARCHER';
   bio?: string;
   skills?: number[]; 
+  githubURL?: string;
+  linkedinURL?: string;
+  preferredContact?: string;
+  yearOfStudy?: number;
 }
