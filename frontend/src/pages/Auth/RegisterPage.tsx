@@ -4,7 +4,7 @@ import { register } from '../../api/auth.service';
 import { useAuthStore } from '../../store/useAuthStore';
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -12,8 +12,14 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await register({ 
         username: formData.username, 
@@ -24,8 +30,9 @@ export default function RegisterPage() {
       // Auto-login after register
       setAuth(response.user, response.accessToken);
       navigate('/'); 
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+    } catch (err: unknown) {
+      const maybeAxiosError = err as { response?: { data?: { message?: string } } };
+      setError(maybeAxiosError.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
@@ -57,8 +64,23 @@ export default function RegisterPage() {
             placeholder="Password"
             required
             className="w-full rounded-lg bg-slate-800 border border-slate-700 p-3 text-white outline-none focus:ring-2 focus:ring-cyan-500"
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) => {
+              setError('');
+              setFormData({ ...formData, password: e.target.value });
+            }}
           />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            required
+            className="w-full rounded-lg bg-slate-800 border border-slate-700 p-3 text-white outline-none focus:ring-2 focus:ring-cyan-500"
+            onChange={(e) => {
+              setError('');
+              setFormData({ ...formData, confirmPassword: e.target.value });
+            }}
+          />
+
           {error && <p className="text-xs text-red-400">{error}</p>}
           <button
             disabled={loading}
