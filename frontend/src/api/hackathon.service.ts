@@ -1,5 +1,6 @@
 import axiosInstance from './axiosInstance';
-import type { Hackathon, Participant, HackathonFormData } from '../types/hackathon.types'; 
+import type { Hackathon, Participant, HackathonFormData, ParticipantFilters } from '../types/hackathon.types'; 
+
 
 
 export const getParticipantsByHackathonId = async (hackathonId: number, filters?: ParticipantFilters)
