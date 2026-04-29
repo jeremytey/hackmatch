@@ -19,4 +19,5 @@ export interface UpdateUserDto {
   university?: string;
   role?: 'DEVELOPER' | 'DESIGNER' | 'PRODUCT_MANAGER' | 'RESEARCHER';
   bio?: string;
+  skills?: number[]; 
 }

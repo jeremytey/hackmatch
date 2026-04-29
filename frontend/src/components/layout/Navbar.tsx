@@ -26,7 +26,7 @@ export default function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo home redirect */}
         <Link to="/" className="text-xl font-bold tracking-tighter text-white hover:text-cyan-400 transition-colors">
-          HACK<span className="text-cyan-500">MATCH</span>
+          HACK<span className="text-cyan-500">PARTNER</span>
         </Link>
 
         <div className="flex items-center gap-6">

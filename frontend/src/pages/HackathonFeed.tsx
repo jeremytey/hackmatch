@@ -36,7 +36,7 @@ export default function HackathonFeed() {
           Find your next <span className="text-cyan-500 underline decoration-cyan-500/30 underline-offset-8">Hackathon</span>
         </h1>
         <p className="mt-6 text-lg text-slate-400 leading-relaxed">
-          The hub for Sunway students to team up, ship projects, and dominate the Malaysian tech scene. 
+          The hub for students to team up, ship projects, and dominate the Malaysian tech scene. 
         </p>
       </header>
 
