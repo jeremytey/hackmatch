@@ -42,7 +42,7 @@ export async function deleteHackathon(id: number): Promise<void> {
 // List all hackathons 
 export async function getAllHackathons(): Promise<Hackathon[]> {
     const hackathons = await prisma.hackathon.findMany({
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
     });
     return hackathons;
 }
