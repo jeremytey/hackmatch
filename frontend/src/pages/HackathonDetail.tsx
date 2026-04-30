@@ -126,14 +126,27 @@ export default function HackathonDetail() {
             {participants.length === 0 ? (
               <p className="text-xs text-slate-500">No participants yet.</p>
             ) : (
-              participants.slice(0, 6).map((participant) => (
+              participants.slice(0, 5).map((participant) => (
                 <div key={participant.id} className="rounded-xl border border-slate-800 bg-slate-900/40 px-3 py-2">
                   <p className="text-sm font-medium text-white">{participant.user.username}</p>
                   <p className="text-xs text-slate-400">
-                    {participant.user.role?.replace('_', ' ') ?? 'No role'} · {participant.user.university ?? 'University not set'}
+                    {participant.user.role?.replace('_', ' ') ?? 'No role'}
                   </p>
                 </div>
               ))
+            )}
+            {participants.length > 5 && (
+              <p className="text-xs text-slate-500">+ {participants.length - 5} more</p>
+            )}
+          </div>
+          <div className="mt-4">
+            {isParticipant && (
+              <Link
+                to={`/hackathons/${id}/participants`}
+                className="block w-full rounded-xl border border-cyan-500/30 bg-cyan-500/5 py-2.5 text-center text-sm font-bold text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+              >
+                Find Teammates →
+              </Link>
             )}
           </div>
         </div>

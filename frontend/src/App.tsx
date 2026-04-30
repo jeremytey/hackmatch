@@ -30,15 +30,17 @@ const App = () => {
             <Route path="/register" element={<RegisterPage />} />
           </Route>
 
-          {/* 3. PROTECTED */}
+          {/* 3. PUBLIC DETAIL */}
+          <Route path="/hackathons/:id" element={<HackathonDetail />} />
+
+          {/* 4. PROTECTED */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/hackathons/:id" element={<HackathonDetail />} />
             <Route path="/hackathons/:id/participants" element={<HackathonParticipants />} />
             <Route path="/profile/me" element={<MyProfile />} />
             <Route path="/profile/:userId" element={<UserProfile />} />
           </Route>
 
-          {/* 4. ADMIN ONLY: requireAdmin */}
+          {/* 5. ADMIN ONLY: requireAdmin */}
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="/admin/create" element={<CreateHackathon />} />
             <Route path="/admin/edit/:id" element={<EditHackathon />} />
@@ -46,7 +48,7 @@ const App = () => {
 
         </Route>
 
-        {/* 5. 404 CLEAN EXIT: Outside MainLayout to prevent UI flicker */}
+        {/* 6. 404 CLEAN EXIT: Outside MainLayout to prevent UI flicker */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

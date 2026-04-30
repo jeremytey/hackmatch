@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getParticipantsByHackathonId, getHackathonById } from '../api/hackathon.service';
 import { useAuthStore } from '../store/useAuthStore';
 import type { Participant, Hackathon, ParticipantFilters } from '../types/hackathon.types';
@@ -9,12 +9,15 @@ const STATUSES = ['LOOKING', 'NEED_MEMBERS', 'FULL'] as const;
 
 export default function HackathonParticipants() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const [hackathon, setHackathon] = useState<Hackathon | null>(null);
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [membershipParticipants, setMembershipParticipants] = useState<Participant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [membershipLoading, setMembershipLoading] = useState(true);
   const [filters, setFilters] = useState<ParticipantFilters>({});
-  const isParticipant = participants.some(p => p.user.id === user?.id);
+  const isParticipant = membershipParticipants.some(p => p.user.id === user?.id);
 
   useEffect(() => {
     if (!id) return;
@@ -29,9 +32,32 @@ export default function HackathonParticipants() {
       .finally(() => setLoading(false));
   }, [id, filters]);
 
+  useEffect(() => {
+    if (!id) return;
+    setMembershipLoading(true);
+    getParticipantsByHackathonId(Number(id))
+      .then(setMembershipParticipants)
+      .finally(() => setMembershipLoading(false));
+  }, [id]);
+
+  useEffect(() => {
+    if (!id || membershipLoading) return;
+    if (!isParticipant) {
+      navigate(`/hackathons/${id}`, { replace: true });
+    }
+  }, [id, membershipLoading, isParticipant, navigate]);
+
   const updateFilter = (key: keyof ParticipantFilters, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value || undefined }));
   };
+
+  if (membershipLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -134,6 +160,26 @@ export default function HackathonParticipants() {
                   <p className="mt-3 text-xs text-slate-300">
                     Contact: <span className="text-cyan-400">{p.user.preferredContact}</span>
                   </p>
+                )}
+                {p.user.githubURL && (
+                  <a
+                    href={p.user.githubURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 block text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {p.user.linkedinURL && (
+                  <a
+                    href={p.user.linkedinURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 block text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    LinkedIn
+                  </a>
                 )}
               </div>
 
