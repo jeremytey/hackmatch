@@ -16,7 +16,7 @@ export async function register(req: Request, res: Response, next: NextFunction):
         res.cookie("refreshToken", result.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none" as const, 
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.status(201).json({ accessToken: result.accessToken, user: result.user });
@@ -40,7 +40,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         res.cookie("refreshToken", result.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none" as const,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.status(200).json({ accessToken: result.accessToken, user: result.user });
@@ -61,7 +61,7 @@ export async function refreshTokens(req: Request, res: Response, next: NextFunct
         res.cookie("refreshToken", result.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none" as const,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.status(200).json({ accessToken: result.accessToken });
@@ -82,7 +82,7 @@ export async function logout(req: Request, res: Response, next: NextFunction): P
         // If token verification fails, we still want to clear the cookie and respond with success
       }
     }
-    res.clearCookie('refreshToken');
+    res.clearCookie('refreshToken', { sameSite: "none" as const, secure: process.env.NODE_ENV === "production" });
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     logger.error('Logout error:', error);
