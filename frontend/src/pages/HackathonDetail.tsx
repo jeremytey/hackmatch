@@ -21,12 +21,16 @@ export default function HackathonDetail() {
     const loadData = async () => {
       if (!id) return;
       try {
-        const [hData, pData] = await Promise.all([
-          getHackathonById(Number(id)),
-          getParticipantsByHackathonId(Number(id))
-        ]);
+        const hData = await getHackathonById(Number(id));
         setHackathon(hData);
-        setParticipants(pData);
+
+        try {
+          const pData = await getParticipantsByHackathonId(Number(id));
+          setParticipants(pData);
+        } catch (participantsErr) {
+          console.warn("Failed to load participants teaser:", participantsErr);
+          setParticipants([]);
+        }
       } catch (err) {
         console.error("Failed to load details:", err);
       } finally {

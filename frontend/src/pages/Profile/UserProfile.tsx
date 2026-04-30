@@ -4,16 +4,19 @@ import { getUserProfileById } from '../../api/user.service';
 import type { UserProfile } from '../../types/user.types';
 
 export default function UserProfilePage() {
-  const { id } = useParams<{ id: string }>();
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!id) return;
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
       try {
-        const data = await getUserProfileById(Number(id));
+        const data = await getUserProfileById(Number(userId));
         setProfile(data);
       } catch (err) {
         console.error("User not found");
@@ -22,7 +25,7 @@ export default function UserProfilePage() {
       }
     };
     fetchUser();
-  }, [id]);
+  }, [userId]);
 
   if (loading) return <div className="p-20 text-center text-slate-500 italic">Loading hacker profile...</div>;
   
