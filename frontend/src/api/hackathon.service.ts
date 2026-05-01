@@ -43,3 +43,8 @@ export const joinHackathon = async (hackathonId: number): Promise<void> => {
 export const leaveHackathon = async (hackathonId: number): Promise<void> => {
   await axiosInstance.delete(`/hackathons/${hackathonId}/leave`);
 };
+
+// Delete a hackathon by ID. DELETE /hackathons/:id
+export const deleteHackathon = async (id: number): Promise<void> => {
+  await axiosInstance.delete(`/hackathons/${id}`);
+};

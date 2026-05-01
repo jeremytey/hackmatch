@@ -1,7 +1,7 @@
 import { useEffect, useState, type SVGProps } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
-import { getHackathonById, getParticipantsByHackathonId, joinHackathon, leaveHackathon } from '../api/hackathon.service';
+import { getHackathonById, getParticipantsByHackathonId, joinHackathon, leaveHackathon, deleteHackathon } from '../api/hackathon.service';
 import type { Hackathon, Participant } from '../types/hackathon.types';
 
 const ArrowLeftIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -38,6 +38,7 @@ export default function HackathonDetail() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const isParticipant = participants.some(p => p.user.id === user?.id);
 
@@ -90,6 +91,15 @@ export default function HackathonDetail() {
     }
   };
 
+  const handleDelete = async () => {
+  if (!id) return;
+  try {
+    await deleteHackathon(Number(id));
+    navigate('/');
+  } catch {
+    alert('Delete failed. Please try again.');
+  }
+  };
   if (isLoading) return <div className="p-20 text-center text-slate-500">Loading details...</div>;
   if (!hackathon) return <div className="p-20 text-center text-slate-500">Hackathon not found.</div>;
 
@@ -162,10 +172,42 @@ export default function HackathonDetail() {
               )}
 
               {user?.userRole === 'ADMIN' && (
-                <Link to={`/admin/edit/${id}`} className="block w-full rounded-lg border border-dashed border-cyan-500/30 py-2 text-center text-xs font-medium text-cyan-500 hover:bg-cyan-500/5 transition-colors">
-                  Edit Hackathon
-                </Link>
+            <>
+              <Link
+                to={`/admin/edit/${id}`}
+                className="block w-full rounded-lg border border-dashed border-cyan-500/30 py-2 text-center text-xs font-medium text-cyan-500 hover:bg-cyan-500/5 transition-colors"
+              >
+                Edit Hackathon
+              </Link>
+
+              {!showDeleteConfirm ? (
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="block w-full rounded-lg border border-dashed border-red-500/30 py-2 text-center text-xs font-medium text-red-500 hover:bg-red-500/5 transition-colors"
+                >
+                  Delete Hackathon
+                </button>
+              ) : (
+                <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-3 space-y-2">
+                  <p className="text-xs text-red-400 text-center font-medium">Delete this hackathon?</p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowDeleteConfirm(false)}
+                      className="flex-1 rounded-lg border border-slate-700 py-1.5 text-xs font-medium text-slate-400 hover:bg-slate-800 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className="flex-1 rounded-lg bg-red-600 py-1.5 text-xs font-bold text-white hover:bg-red-500 transition-colors"
+                    >
+                      Confirm Delete
+                    </button>
+                  </div>
+                </div>
               )}
+            </>
+          )}
             </div>
           </div>
 

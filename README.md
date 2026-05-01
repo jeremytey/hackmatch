@@ -8,6 +8,7 @@
 
 ## Live Demo
 **API:** https://hackpartner-production.up.railway.app/
+
 **Web:** https://hackpartner.vercel.app/
 
 ## The Problem
@@ -25,7 +26,7 @@ HackPartner offers a platform for students to structure profiles, filter for pot
 |-------|-----------|-----|
 | Runtime | Node.js + Express | Familiar, performant, large ecosystem |
 | Language | TypeScript | Type safety, catches type errors at compile time |
-| ORM | Prisma | Type-safe queries, clean migrations, great DX |
+| ORM | Prisma | Type-safe queries, clean migrations, smooth DX |
 | Database | PostgreSQL | Relational data, strong constraints, strong consistency|
 | Auth | JWT + refresh token rotation | Stateless, secure, industry standard |
 | Validation | Zod | Runtime type safety, pairs well with TypeScript |
@@ -90,4 +91,4 @@ hackathon join/status/leave, participant feed filtering.
 
 ## Author
 Jeremy Tey Jie Ming — Sunway University, BSc Computer Science  
-[LinkedIn](https://www.linkedin.com/in/jeremy-tey/)
+[LinkedIn]: (https://www.linkedin.com/in/jeremy-tey/)
