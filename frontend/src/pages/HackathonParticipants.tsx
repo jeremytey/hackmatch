@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type SVGProps } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getParticipantsByHackathonId, getHackathonById } from '../api/hackathon.service';
 import { useAuthStore } from '../store/useAuthStore';
 import type { Participant, Hackathon, ParticipantFilters } from '../types/hackathon.types';
+
+const ArrowLeftIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
+  </svg>
+);
 
 const ROLES = ['DEVELOPER', 'DESIGNER', 'PRODUCT_MANAGER', 'RESEARCHER'];
 const STATUSES = ['LOOKING', 'NEED_MEMBERS', 'FULL'] as const;
@@ -60,24 +67,31 @@ export default function HackathonParticipants() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 font-sans tracking-tight">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="space-y-2">
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-300 transition-colors hover:border-cyan-500/50 hover:text-cyan-300"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          Back
+        </button>
         <div>
           <Link to={`/hackathons/${id}`} className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-            ← Back to {hackathon?.name ?? 'Hackathon'}
+            {hackathon?.name ?? 'Hackathon'}
           </Link>
-          <h1 className="mt-2 text-3xl font-extrabold text-white">
+          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white md:text-3xl">
             Find Your Team
           </h1>
-          <p className="text-slate-400 text-sm mt-1">{participants.length} registered participants</p>
+          <p className="mt-0.5 text-xs text-slate-400">{participants.length} registered participants</p>
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap gap-3 p-5 bg-slate-900/50 border border-slate-800 rounded-2xl">
+      <div className="flex flex-wrap gap-2 rounded-xl border border-white/10 bg-slate-900/50 p-3">
         <select
-          className="bg-slate-800 text-white text-sm px-3 py-2 rounded-xl border border-slate-700 outline-none focus:ring-2 focus:ring-cyan-500"
+          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs text-white outline-none focus:ring-2 focus:ring-cyan-500"
           onChange={(e) => updateFilter('role', e.target.value)}
         >
           <option value="">All Roles</option>
@@ -87,7 +101,7 @@ export default function HackathonParticipants() {
         </select>
 
         <select
-          className="bg-slate-800 text-white text-sm px-3 py-2 rounded-xl border border-slate-700 outline-none focus:ring-2 focus:ring-cyan-500"
+          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs text-white outline-none focus:ring-2 focus:ring-cyan-500"
           onChange={(e) => updateFilter('teamStatus', e.target.value)}
         >
           <option value="">All Statuses</option>
@@ -98,7 +112,7 @@ export default function HackathonParticipants() {
 
         <button
           onClick={() => setFilters({})}
-          className="ml-auto text-xs text-slate-500 hover:text-slate-300 transition-colors px-3 py-2"
+          className="ml-auto px-2 py-1 text-xs text-slate-500 transition-colors hover:text-slate-300"
         >
           Clear filters
         </button>
@@ -110,16 +124,16 @@ export default function HackathonParticipants() {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent" />
         </div>
       ) : participants.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-800 p-20 text-center">
+        <div className="rounded-xl border border-dashed border-slate-800 p-14 text-center">
           <p className="text-slate-400 font-medium">No participants match your filters.</p>
         </div>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {participants.map(p => (
-            <div key={p.id} className="group flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/40 p-6 hover:border-cyan-500/50 transition-all">
+            <div key={p.id} className="group flex flex-col justify-between rounded-xl border border-white/10 bg-slate-900/40 p-4 transition-all hover:border-cyan-500/50">
               {/* Card Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-cyan-600 to-blue-700 flex items-center justify-center text-xl font-black text-white">
+              <div className="mb-3 flex items-start justify-between">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 text-base font-black text-white">
                   {p.user.username[0].toUpperCase()}
                 </div>
                 <span className={`text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-wider ${
@@ -133,7 +147,7 @@ export default function HackathonParticipants() {
 
               {/* Card Body */}
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">
+                <h3 className="text-base font-bold text-white transition-colors group-hover:text-cyan-400">
                   {p.user.username}
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -144,7 +158,7 @@ export default function HackathonParticipants() {
                     {p.user.bio}
                   </p>
                 )}
-                <div className="flex flex-wrap gap-1.5 mt-4">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {p.user.skills.slice(0, 4).map(s => (
                     <span key={s.id} className="text-[10px] bg-slate-800 border border-slate-700 text-slate-400 px-2 py-0.5 rounded-md">
                       {s.name}
@@ -186,7 +200,7 @@ export default function HackathonParticipants() {
               {/* Card Footer */}
               <Link
                 to={`/profile/${p.user.id}`}
-                className="mt-6 block w-full rounded-xl bg-slate-800 py-2.5 text-center text-xs font-bold text-slate-300 hover:bg-cyan-600 hover:text-white transition-colors"
+                className="mt-4 block w-full rounded-lg bg-slate-800 py-2 text-center text-xs font-bold uppercase tracking-wide text-slate-300 transition-colors hover:bg-cyan-600 hover:text-white"
               >
                 View Profile & Contact →
               </Link>

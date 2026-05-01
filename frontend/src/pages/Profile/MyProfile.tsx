@@ -1,8 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type SVGProps } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getMyProfile, updateProfile, getAllSkills} from '../../api/user.service';
 import type { UserProfile, UpdateUserDto } from '../../types/user.types';
 import type { Skill } from '../../types/skill.types';
+
+const UserCircleIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="10" r="3" />
+    <path d="M7 20.66C7.82 19.09 9.55 18 12 18s4.18 1.09 5 2.66" />
+  </svg>
+);
 
 export default function MyProfile() {
   const location = useLocation();
@@ -87,50 +95,50 @@ export default function MyProfile() {
   if (!profile) return <div className="p-20 text-center text-red-400 font-medium">Unable to load profile data.</div>;
 
   return (
-    <div className="max-w-2xl mx-auto py-12 px-4 space-y-8">
+    <div className="mx-auto max-w-3xl space-y-4 px-4 py-8 font-sans tracking-tight">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight">Account Settings</h1>
-        <button 
+        <h1 className="text-2xl font-extrabold tracking-tight text-white md:text-3xl">Account Settings</h1>
+        <button
           onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-          className="rounded-xl bg-slate-800 px-6 py-2.5 text-sm font-bold text-slate-200 hover:bg-slate-700 transition-all border border-slate-700 shadow-lg active:scale-95"
+          className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-bold uppercase tracking-wide text-slate-200 shadow-lg transition-all hover:bg-slate-700 active:scale-95"
         >
           {isEditing ? 'Save Changes' : 'Edit Profile'}
         </button>
       </div>
 
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8 space-y-10 shadow-2xl backdrop-blur-md">
+      <div className="rounded-xl border border-white/10 bg-slate-900/40 p-4 shadow-2xl backdrop-blur-md md:p-5">
         {/* User Header */}
-        <div className="flex items-center gap-6">
-          <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-3xl font-black text-white shadow-lg shadow-cyan-900/20">
-            {profile?.username ? profile.username[0].toUpperCase() : '?'}
+        <div className="mb-4 flex items-center gap-3">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-800">
+            <UserCircleIcon className="h-16 w-16 text-cyan-400" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">{profile.username}</h2>
-            <p className="text-slate-500 font-medium tracking-wide">{profile.email}</p>
+            <h1 className="text-2xl font-bold tracking-tight text-white">{profile.username}</h1>
+            <p className="text-xs text-slate-500">{profile.email}</p>
           </div>
         </div>
 
         {/* Form Fields */}
-        <div className="grid gap-8 sm:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-3">
             <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">University</label>
             {isEditing ? (
-              <input 
-                className="w-full rounded-xl bg-slate-800/50 border border-slate-700 p-3 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder:text-slate-600"
+              <input
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
                 placeholder="e.g. Sunway University"
                 value={formData.university || ''}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
               />
             ) : (
-              <p className="text-slate-200 font-semibold bg-slate-800/20 p-3 rounded-xl border border-transparent">{profile.university || 'Not set'}</p>
+              <p className="rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.university || 'Not set'}</p>
             )}
           </div>
 
           <div className="space-y-3">
             <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">Primary Role</label>
             {isEditing ? (
-              <select 
-                className="w-full rounded-xl bg-slate-800/50 border border-slate-700 p-3 text-white outline-none focus:ring-2 focus:ring-cyan-500 transition-all cursor-pointer"
+              <select
+                className="w-full cursor-pointer rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
                 value={formData.role || 'DEVELOPER'}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as UpdateUserDto['role']  })}
               >
@@ -140,41 +148,41 @@ export default function MyProfile() {
                 <option value="RESEARCHER">Researcher</option>
               </select>
             ) : (
-              <p className="text-slate-200 font-semibold bg-slate-800/20 p-3 rounded-xl border border-transparent">{profile.role || 'Not set'}</p>
+              <p className="rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.role || 'Not set'}</p>
             )}
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="mt-4 space-y-2">
           <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">Short Bio</label>
           {isEditing ? (
-            <textarea 
+            <textarea
               rows={4}
-              className="w-full rounded-xl bg-slate-800/50 border border-slate-700 p-4 text-white outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none placeholder:text-slate-600"
+              className="w-full resize-none rounded-lg border border-slate-700 bg-slate-800/50 p-3 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
               placeholder="What are you building? What's your stack?"
               value={formData.bio || ''}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             />
           ) : (
-            <p className="text-slate-300 leading-relaxed italic bg-slate-800/20 p-5 rounded-2xl border border-slate-800/50">
+            <p className="rounded-lg border border-slate-800/50 bg-slate-800/20 p-3 text-sm italic leading-relaxed text-slate-300">
               {profile.bio || 'Share a little about yourself...'}
             </p>
           )}
         </div>
 
-        <div className="space-y-4 pt-4">
-          <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">Tech Stack</label>
-          
-          <div className="flex flex-wrap gap-2">
+        <div className="mt-4 space-y-3">
+          <label className="ml-1 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Skills</label>
+
+          <div className="flex flex-wrap gap-1.5">
             {allSkills.filter(s => selectedSkillIds.includes(s.id)).map(skill => (
               <button
                 key={skill.id}
                 type="button"
                 disabled={!isEditing}
                 onClick={() => toggleSkill(skill.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
-                  isEditing 
-                    ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400' 
+                className={`rounded-md border px-2.5 py-1 text-[11px] font-bold transition-all ${
+                  isEditing
+                    ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400'
                     : 'bg-slate-800/50 border-slate-700 text-slate-400'
                 }`}
               >
@@ -185,7 +193,7 @@ export default function MyProfile() {
           </div>
 
           {isEditing && (
-            <div className="space-y-3 mt-4">
+            <div className="mt-3 space-y-2">
               <div className="space-y-3">
                 {categoryNames.map((category) => {
                   const availableSkills = skillsByCategory[category].filter(
@@ -193,11 +201,11 @@ export default function MyProfile() {
                   );
 
                   return (
-                    <div key={category} className="rounded-xl border border-slate-800 bg-slate-900/30">
+                    <div key={category} className="rounded-lg border border-slate-800 bg-slate-900/30">
                       <button
                         type="button"
                         onClick={() => toggleCategory(category)}
-                        className="w-full flex items-center justify-between px-4 py-3 text-left text-sm font-bold text-slate-300 hover:bg-slate-800/50 transition-colors"
+                        className="flex w-full items-center justify-between px-3 py-2 text-left text-xs font-bold text-slate-300 transition-colors hover:bg-slate-800/50"
                       >
                         <span>{formatCategoryLabel(category)}</span>
                         <span className="text-xs text-slate-500">
@@ -206,14 +214,14 @@ export default function MyProfile() {
                       </button>
 
                       {expandedCategories[category] && (
-                        <div className="flex flex-wrap gap-2 px-4 pb-4">
+                        <div className="flex flex-wrap gap-1.5 px-3 pb-3">
                           {availableSkills.length > 0 ? (
                             availableSkills.map((skill) => (
                               <button
                                 key={skill.id}
                                 type="button"
                                 onClick={() => toggleSkill(skill.id)}
-                                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-white rounded-lg text-xs font-semibold transition-colors"
+                                className="rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-[11px] font-semibold text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
                               >
                                 + {skill.name}
                               </button>
