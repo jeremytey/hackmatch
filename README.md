@@ -1,19 +1,19 @@
-# HackMatch
+# HackPartner
 
-> Hackathon teammate discovery platform for Malaysian university students.
+> Hackathon teammate discovery platform.
 > Find qualified teammates by role, skills, and availability - before the deadline.
 
-![CI](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml/badge.svg)
-![Live](https://img.shields.io/badge/live-railway-brightgreen)
+[![CI](https://github.com/jeremytey/hackpartner/actions/workflows/ci.yml/badge.svg)](https://github.com/jeremytey/hackpartner/actions)
+[![Live](https://img.shields.io/badge/live-railway-brightgreen)](https://hackpartner-production.up.railway.app/)
 
 ## Live Demo
-**API:** https://YOUR_RAILWAY_URL  
-**Web:** https://YOUR_VERCEL_URL
+**API:** https://hackpartner-production.up.railway.app/
+**Web:** https://hackpartner.vercel.app/
 
 ## The Problem
 Malaysian University Students find hackathon teammates via Discord channels, XHS posts, checking out LinkedIn profiles, and cold-messaging strangers. With no way to filter by role, skill level, or whether they're even still looking for teammates. Most teams form on luck, not fit. A seamless matched team is the difference maker in a Hackathon compared to a mismatched team. 
 
-HackMatch offers a platform for students to structure profiles, filter for potential teammates, helping you find the right teammate in minutes.
+HackPartner offers a platform for students to structure profiles, filter for potential teammates, helping you find the right teammate in minutes.
 
 
 ## Architecture
@@ -43,8 +43,8 @@ HackMatch offers a platform for students to structure profiles, filter for poten
 
 ### Steps
 \`\`\`bash
-git clone https://github.com/YOUR_USERNAME/hackmatch.git
-cd hackmatch/backend
+git clone https://github.com/jeremytey/hackpartner.git
+cd hackpartner/backend
 cp .env.example .env
 # Fill in .env values
 npm install
@@ -90,4 +90,4 @@ hackathon join/status/leave, participant feed filtering.
 
 ## Author
 Jeremy Tey Jie Ming — Sunway University, BSc Computer Science  
-[LinkedIn] (https://www.linkedin.com/in/jeremy-tey/)
+[LinkedIn](https://www.linkedin.com/in/jeremy-tey/)

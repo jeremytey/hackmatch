@@ -27,6 +27,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+// Health Check Endpoint
+app.get('/', (_req, res) => {
+  res.json({ status: 'ok', service: 'HackPartner API' });
+});
+
 // Routes
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
