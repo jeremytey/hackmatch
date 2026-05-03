@@ -1,7 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type SVGProps } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserProfileById } from '../../api/user.service';
 import type { UserProfile } from '../../types/user.types';
+
+const ArrowLeftIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
+  </svg>
+);
 
 export default function UserProfilePage() {
   const { userId } = useParams<{ userId: string }>();
@@ -32,12 +39,29 @@ export default function UserProfilePage() {
   if (!profile) return (
     <div className="p-20 text-center">
       <p className="text-red-400 mb-4 font-medium">User not found.</p>
-      <button onClick={() => navigate(-1)} className="text-cyan-400 hover:underline font-bold">← Go Back</button>
+      <button 
+        onClick={() => navigate(-1)} 
+        className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-300 transition-colors hover:border-cyan-500/50 hover:text-cyan-300"
+      >
+        <ArrowLeftIcon className="h-4 w-4" />
+        Go Back
+      </button>
     </div>
   );
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4 space-y-8">
+    <div className="max-w-3xl mx-auto py-8 px-4 space-y-6">
+      {/* Back Button positioned at the top */}
+      <div className="flex justify-start">
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-300 transition-colors hover:border-cyan-500/50 hover:text-cyan-300"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          Back to Participants
+        </button>
+      </div>
+
       {/* Profile Header */}
       <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-10 shadow-2xl backdrop-blur-md relative overflow-hidden">
         <div className="absolute -top-24 -right-24 h-64 w-64 bg-cyan-500/10 blur-[100px] rounded-full" />
@@ -52,7 +76,7 @@ export default function UserProfilePage() {
               <h1 className="text-4xl font-black text-white tracking-tight">{profile.username}</h1>
               {profile.role && (
                 <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-widest">
-                  {profile.role}
+                  {profile.role.replace('_', ' ')}
                 </span>
               )}
             </div>

@@ -188,7 +188,7 @@ export default function MyProfile() {
 
           {/* Preferred Contact  */}
           <div className="space-y-2 md:col-span-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Preferred Contact (e.g., +60 or @Telegram)</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Preferred Contact (e.g., +60 or Discord Username)</label>
             {isEditing ? (
               <input
                 className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
