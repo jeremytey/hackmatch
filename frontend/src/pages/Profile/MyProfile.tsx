@@ -44,6 +44,8 @@ export default function MyProfile() {
           skills: data.skills?.map(s => s.id) || [],
           githubURL: data.githubURL || '',
           linkedinURL: data.linkedinURL || '',
+          preferredContact: data.preferredContact || '',
+          yearOfStudy: data.yearOfStudy || 1,
         });
       } catch (err) {
         console.error("Failed to fetch initial data:", err);
@@ -69,7 +71,7 @@ export default function MyProfile() {
       setProfile(updatedProfile);
       setIsEditing(false);
     } catch (err) {
-      alert("Update failed. Please check your connection.");
+      alert("Update failed. Check your connection or field formats.");
     }
   };
 
@@ -108,9 +110,10 @@ export default function MyProfile() {
       </div>
 
       <div className="rounded-xl border border-white/10 bg-slate-900/40 p-4 shadow-2xl backdrop-blur-md md:p-5">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-800">
-            <UserCircleIcon className="h-16 w-16 text-cyan-400" />
+        {/* User Header */}
+        <div className="mb-6 flex items-center gap-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-800 ring-2 ring-cyan-500/20">
+            <UserCircleIcon className="h-10 w-10 text-cyan-400" />
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">{profile.username}</h1>
@@ -118,23 +121,25 @@ export default function MyProfile() {
           </div>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">University</label>
+        {/* Form Fields Grid */}
+        <div className="grid gap-4 md:grid-cols-2">
+          {/* University */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">University</label>
             {isEditing ? (
               <input
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
-                placeholder="e.g. Sunway University"
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
                 value={formData.university || ''}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
               />
             ) : (
-              <p className="rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.university || 'Not set'}</p>
+              <p className="rounded-lg bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.university || 'Not set'}</p>
             )}
           </div>
 
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">Primary Role</label>
+          {/* Role */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Primary Role</label>
             {isEditing ? (
               <select
                 className="w-full cursor-pointer rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
@@ -147,62 +152,74 @@ export default function MyProfile() {
                 <option value="RESEARCHER">Researcher</option>
               </select>
             ) : (
-              <p className="rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.role || 'Not set'}</p>
+              <p className="rounded-lg bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.role || 'Not set'}</p>
             )}
           </div>
 
-          {/* Social Links Section */}
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">GitHub URL</label>
+          {/* GitHub */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">GitHub URL</label>
             {isEditing ? (
               <input
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
-                placeholder="https://github.com/username"
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
+                placeholder="https://github.com/..."
                 value={formData.githubURL || ''}
                 onChange={(e) => setFormData({ ...formData, githubURL: e.target.value })}
               />
             ) : (
-              <p className="truncate rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">
-                {profile.githubURL || 'None linked'}
-              </p>
+              <p className="truncate rounded-lg bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.githubURL || 'None'}</p>
             )}
           </div>
 
-          <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">LinkedIn URL</label>
+          {/* LinkedIn */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">LinkedIn URL</label>
             {isEditing ? (
               <input
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
-                placeholder="https://linkedin.com/in/username"
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
+                placeholder="https://linkedin.com/in/..."
                 value={formData.linkedinURL || ''}
                 onChange={(e) => setFormData({ ...formData, linkedinURL: e.target.value })}
               />
             ) : (
-              <p className="truncate rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">
-                {profile.linkedinURL || 'None linked'}
-              </p>
+              <p className="truncate rounded-lg bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.linkedinURL || 'None'}</p>
+            )}
+          </div>
+
+          {/* Preferred Contact  */}
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Preferred Contact (e.g., +60 or @Telegram)</label>
+            {isEditing ? (
+              <input
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
+                value={formData.preferredContact || ''}
+                onChange={(e) => setFormData({ ...formData, preferredContact: e.target.value })}
+              />
+            ) : (
+              <p className="rounded-lg bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.preferredContact || 'No contact info provided'}</p>
             )}
           </div>
         </div>
 
-        <div className="mt-4 space-y-2">
-          <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">Short Bio</label>
+        {/* Bio Section */}
+        <div className="mt-6 space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Short Bio</label>
           {isEditing ? (
             <textarea
-              rows={4}
-              className="w-full resize-none rounded-lg border border-slate-700 bg-slate-800/50 p-3 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
-              placeholder="What are you building? What's your stack?"
+              rows={3}
+              className="w-full resize-none rounded-lg border border-slate-700 bg-slate-800/50 p-3 text-sm text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500"
               value={formData.bio || ''}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             />
           ) : (
-            <p className="rounded-lg border border-slate-800/50 bg-slate-800/20 p-3 text-sm italic leading-relaxed text-slate-300">
-              {profile.bio || 'Share a little about yourself...'}
+            <p className="rounded-lg bg-slate-800/20 p-3 text-sm italic leading-relaxed text-slate-300">
+              {profile.bio || 'Tell potential teammates about your experience...'}
             </p>
           )}
         </div>
 
-        <div className="mt-4 space-y-3">
+        {/* Skills Section */}
+        <div className="mt-6 space-y-3">
           <label className="ml-1 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Skills</label>
 
           <div className="flex flex-wrap gap-1.5">
@@ -221,52 +238,43 @@ export default function MyProfile() {
                 {skill.name} {isEditing && <span className="ml-1 opacity-50">×</span>}
               </button>
             ))}
-            {!formData.skills?.length && !isEditing && <p className="text-slate-600 text-sm italic">No skills listed.</p>}
           </div>
 
           {isEditing && (
-            <div className="mt-3 space-y-2">
-              <div className="space-y-3">
-                {categoryNames.map((category) => {
-                  const availableSkills = skillsByCategory[category].filter(
-                    (skill) => !selectedSkillIds.includes(skill.id)
-                  );
+            <div className="mt-4 space-y-3">
+              {categoryNames.map((category) => {
+                const availableSkills = skillsByCategory[category].filter(
+                  (skill) => !selectedSkillIds.includes(skill.id)
+                );
 
-                  return (
-                    <div key={category} className="rounded-lg border border-slate-800 bg-slate-900/30">
-                      <button
-                        type="button"
-                        onClick={() => toggleCategory(category)}
-                        className="flex w-full items-center justify-between px-3 py-2 text-left text-xs font-bold text-slate-300 transition-colors hover:bg-slate-800/50"
-                      >
-                        <span>{formatCategoryLabel(category)}</span>
-                        <span className="text-xs text-slate-500">
-                          {expandedCategories[category] ? 'Hide' : 'Show'} ({availableSkills.length})
-                        </span>
-                      </button>
+                return (
+                  <div key={category} className="rounded-lg border border-slate-800 bg-slate-900/30">
+                    <button
+                      type="button"
+                      onClick={() => toggleCategory(category)}
+                      className="flex w-full items-center justify-between px-3 py-2 text-left text-xs font-bold text-slate-300"
+                    >
+                      <span>{formatCategoryLabel(category)}</span>
+                      <span className="text-slate-500">{expandedCategories[category] ? '−' : '+'}</span>
+                    </button>
 
-                      {expandedCategories[category] && (
-                        <div className="flex flex-wrap gap-1.5 px-3 pb-3">
-                          {availableSkills.length > 0 ? (
-                            availableSkills.map((skill) => (
-                              <button
-                                key={skill.id}
-                                type="button"
-                                onClick={() => toggleSkill(skill.id)}
-                                className="rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-[11px] font-semibold text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
-                              >
-                                + {skill.name}
-                              </button>
-                            ))
-                          ) : (
-                            <p className="text-xs text-slate-500 italic">All skills in this category are selected.</p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    {expandedCategories[category] && (
+                      <div className="flex flex-wrap gap-1.5 px-3 pb-3">
+                        {availableSkills.map((skill) => (
+                          <button
+                            key={skill.id}
+                            type="button"
+                            onClick={() => toggleSkill(skill.id)}
+                            className="rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-[11px] text-slate-400 hover:text-white"
+                          >
+                            + {skill.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
