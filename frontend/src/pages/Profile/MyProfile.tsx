@@ -26,9 +26,8 @@ export default function MyProfile() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        // Fetch both profile and master skills list
         const [data, skillsList] = await Promise.all([getMyProfile(), getAllSkills()]);
-        
+
         setProfile(data);
         setAllSkills(skillsList);
         setExpandedCategories(
@@ -43,6 +42,8 @@ export default function MyProfile() {
           role: (data.role as UpdateUserDto['role']) || 'DEVELOPER',
           bio: data.bio || '',
           skills: data.skills?.map(s => s.id) || [],
+          githubURL: data.githubURL || '',
+          linkedinURL: data.linkedinURL || '',
         });
       } catch (err) {
         console.error("Failed to fetch initial data:", err);
@@ -53,13 +54,12 @@ export default function MyProfile() {
     fetchInitialData();
   }, []);
 
-  // Toggle skill selection in the form data
   const toggleSkill = (skillId: number) => {
     const currentIds = formData.skills || [];
     const newIds = currentIds.includes(skillId)
       ? currentIds.filter(id => id !== skillId)
       : [...currentIds, skillId];
-    
+
     setFormData({ ...formData, skills: newIds });
   };
 
@@ -79,6 +79,7 @@ export default function MyProfile() {
     acc[skill.category].push(skill);
     return acc;
   }, {});
+
   const categoryNames = Object.keys(skillsByCategory).sort();
 
   const toggleCategory = (category: string) => {
@@ -107,7 +108,6 @@ export default function MyProfile() {
       </div>
 
       <div className="rounded-xl border border-white/10 bg-slate-900/40 p-4 shadow-2xl backdrop-blur-md md:p-5">
-        {/* User Header */}
         <div className="mb-4 flex items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-800">
             <UserCircleIcon className="h-16 w-16 text-cyan-400" />
@@ -118,7 +118,6 @@ export default function MyProfile() {
           </div>
         </div>
 
-        {/* Form Fields */}
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-3">
             <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">University</label>
@@ -149,6 +148,39 @@ export default function MyProfile() {
               </select>
             ) : (
               <p className="rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">{profile.role || 'Not set'}</p>
+            )}
+          </div>
+
+          {/* Social Links Section */}
+          <div className="space-y-3">
+            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">GitHub URL</label>
+            {isEditing ? (
+              <input
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
+                placeholder="https://github.com/username"
+                value={formData.githubURL || ''}
+                onChange={(e) => setFormData({ ...formData, githubURL: e.target.value })}
+              />
+            ) : (
+              <p className="truncate rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">
+                {profile.githubURL || 'None linked'}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] ml-1">LinkedIn URL</label>
+            {isEditing ? (
+              <input
+                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 p-2.5 text-sm text-white outline-none transition-all placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500"
+                placeholder="https://linkedin.com/in/username"
+                value={formData.linkedinURL || ''}
+                onChange={(e) => setFormData({ ...formData, linkedinURL: e.target.value })}
+              />
+            ) : (
+              <p className="truncate rounded-lg border border-transparent bg-slate-800/20 p-2.5 text-sm font-semibold text-slate-200">
+                {profile.linkedinURL || 'None linked'}
+              </p>
             )}
           </div>
         </div>
