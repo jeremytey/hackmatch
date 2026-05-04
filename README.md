@@ -9,7 +9,7 @@
 ## Live Demo
 **API:** https://hackpartner-production.up.railway.app/
 
-**Web:** https://hackpartner.vercel.app/
+**Web:** https://hackpartner.dev/
 
 ## The Problem
 Malaysian University Students find hackathon teammates via Discord channels, XHS posts, checking out LinkedIn profiles, and cold-messaging strangers. With no way to filter by role, skill level, or whether they're even still looking for teammates. Most teams form on luck, not fit. A seamless matched team is the difference maker in a Hackathon compared to a mismatched team. 
@@ -85,7 +85,7 @@ Covers: register, login, refresh, logout, profile CRUD,
 hackathon join/status/leave, participant feed filtering.
 
 ## User Feedback Log
-| Date | User | University | Feedback |
+| Date | User | University | Feedback | Action Taken |
 |------|------|-----------|---------|
 | - | - | - | Collecting after launch |
 
