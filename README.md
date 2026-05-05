@@ -42,6 +42,8 @@ HackPartner gives students structured profiles and a filterable participant feed
 | Frontend | React + TypeScript + Zustand | Component model with typed global auth state; Axios interceptors handle silent token refresh without user facing disruption |
 | Deployment | Railway + Render + Vercel | API on Railway, DB on Render, frontend on Vercel — each service on the tier optimised for its workload |
 
+**Planned:** Redis cache layer for `GET /hackathons` and participant feed as user count scales.
+
 ---
 
 ## Local Setup
@@ -115,6 +117,10 @@ npm test
 
 | Date | User | University | Feedback | Action Taken |
 |------|------|------------|----------|--------------|
+| May 2, 2026 | Vincent Lai Ken Ji | Sunway University | Navigation felt incomplete — no way to go back without using the browser button | Added back button to all detail and participant pages |
+| May 2, 2026 | Anonymous | Asia Pacific University | Could not add contact number to profile | Added preferred contact field to profile edit form |
+| May 5, 2026 | Anonymous | Multimedia University (Malacca) | Solid UX but platform needs more users to be useful | Ongoing public outreach across Discord, Reddit, and Facebook groups |
+| May 5, 2026 | Anonymous | Asia Pacific University | Loved the skill-based filtering on the participant feed — much easier to find people with the right stack | Noted as core value proposition; prioritising outreach to grow participant count |
 
 ---
 
