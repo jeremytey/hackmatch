@@ -1,7 +1,7 @@
 # HackPartner
 
 > Hackathon teammate discovery platform for Malaysian university students.  
-> Find qualified teammates by role, skills, and availability — before the deadline.
+> Find qualified teammates by role, skills, and availability - before the deadline.
 
 [![CI](https://github.com/jeremytey/hackpartner/actions/workflows/ci.yml/badge.svg)](https://github.com/jeremytey/hackpartner/actions)
 [![Live](https://img.shields.io/badge/live-hackpartner.dev-brightgreen)](https://hackpartner.dev)
